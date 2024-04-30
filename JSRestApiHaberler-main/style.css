@@ -1,0 +1,35 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .slideshow-container {
+    max-width: 800px;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .mySlides {
+    display: none;
+    text-align: center;
+  }
+  
+  .mySlides img {
+    width: 100%;
+    height: auto;
+  }
+  
+  .text {
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    position: absolute;
+    bottom: 8px;
+    width: 100%;
+    text-align: center;
+  }
+  

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>News Slideshow</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .slideshow-container {
+      max-width: 1000px;
+      position: relative;
+      margin: auto;
+    }
+
+    .mySlides {
+      display: none;
+      text-align: center;
+    }
+
+    .prev, .next {
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      width: auto;
+      margin-top: -22px;
+      padding: 16px;
+      color: white;
+      font-weight: bold;
+      font-size: 18px;
+      transition: 0.6s ease;
+      border-radius: 0 3px 3px 0;
+    }
+
+    .next {
+      right: 0;
+      border-radius: 3px 0 0 3px;
+    }
+  </style>
+</head>
+<body>
+  <div class="slideshow-container">
+    <div class="haberler"></div>
+    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+    <a class="next" onclick="plusSlides(1)">&#10095;</a>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    const apiKaynakAdresi = "https://api.collectapi.com/news/getNews?country=tr&tag=general";
+    const apiAyarlari = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "apikey 4dt29quqTUIne0aMPOL4DL:0l849tJwAWlI1Wy5PlP05N"
+      }
+    };
+
+    $(document).ready(function() {
+      haberListele();
+    });
+
+    async function haberListele() {
+      try {
+        const sunucuYaniti = await fetch(apiKaynakAdresi, apiAyarlari);
+        const veriler = await sunucuYaniti.json();
+
+        veriler.result.forEach(eleman => {
+          const haberDiv = $('<div class="mySlides"></div>'); // Her haber için bir slayt
+          const haberBasligi = $('<h2></h2>').text(eleman.name);
+          haberDiv.append(haberBasligi);
+          $(".haberler").append(haberDiv);
+        });
+
+        showSlides();
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    let slideIndex = 0;
+    function showSlides() {
+      const slides = $(".mySlides");
+      for (let i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";  
+      }
+      slideIndex++;
+      if (slideIndex > slides.length) {slideIndex = 1}    
+      $(slides[slideIndex-1]).css("display", "block");
+      setTimeout(showSlides, 2000); // Her 2 saniyede bir slaytı değiştir
+    }
+
+    function plusSlides(n) {
+      showSlides(slideIndex += n);
+    }
+  </script>
+</body>
+</html>
